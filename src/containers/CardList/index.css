@@ -1,0 +1,17 @@
+li {
+    list-style: none;
+}
+
+.item-gallery {
+    display: none;
+}
+
+.single-item {
+    margin: 0 auto 30px;
+}
+
+.single-item img {
+    display: block;
+    max-width: 200px;
+    height: auto;
+}
