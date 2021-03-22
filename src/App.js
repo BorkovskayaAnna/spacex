@@ -1,4 +1,4 @@
-import CardList from './containers/CardPage'
+import CardList from './pages/CardPage'
 
 function App() {
     return (
