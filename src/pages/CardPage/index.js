@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import Filter from '../../components/Filter'
 import Search from '../../components/Search'
 import CardList from '../../components/CardList'
+import { fetchData } from '../../api'
 
 function CardPage() {
 
@@ -14,24 +15,21 @@ function CardPage() {
 
     const handleSearch = e => setSearch(e.target.value)
 
-    const handleFilter = e => {
-        console.log(e.target.value)
-        setFilter(e.target.value)
+    const handleFilter = e => setFilter(e.target.value)
+
+    const handeFetchData = async() => {
+        const data = await fetchData()
+        setCards(data);
     }
 
     useEffect(() => {
-        async function fetchData() {
-            const res = await fetch("https://api.spacexdata.com/v4/rockets");
-            const data = await res.json();
-            setCards(data);
-        }
-        fetchData();
+        handeFetchData()
     }, []);
 
     return (
         <>
         <Search search={search} handleSearch={handleSearch} />
-        <Filter cards={cards} param={filter} handleFilter={handleFilter} />
+        <Filter cards={cards} filter={filter} handleFilter={handleFilter} />
         <CardList cards={cards} search={search} />
         </>
     )
