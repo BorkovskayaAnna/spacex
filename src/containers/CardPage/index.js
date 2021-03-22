@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react'
-import Card from '../../components/Card'
 import Filter from '../../components/Filter'
 import Search from '../../components/Search'
-import style from './index.css'
+import CardList from '../../components/CardList'
 
-function CardList() {
+function CardPage() {
+
     const [cards, setCards] = useState([]);
     const [loading, setLoading] = useState(false);
     const [perPage, setPerPage] = useState(1);
@@ -32,17 +32,9 @@ function CardList() {
         <>
         <Search search={search} handleSearch={handleSearch} />
         <Filter cards={cards} param={filter} handleFilter={handleFilter} />
-
-            {cards === null ? (
-                <p>loading ...</p>
-            ) : (
-                cards.map(card => card.name.toLowerCase().includes(search)  ? (
-                        <Card cards={card} />
-                    ) : ''
-                )
-            )}
+        <CardList cards={cards} search={search} />
         </>
     )
 }
 
-export default CardList;
+export default CardPage;

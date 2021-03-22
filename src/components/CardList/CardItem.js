@@ -1,6 +1,6 @@
 import React from "react";
 
-const Card = ({ cards }) => (
+const CardItem = ({ cards }) => (
     <li className="single-item" >
         <h1>{cards.name}</h1>
         <img src={cards.flickr_images[0]} alt={cards.name} />
@@ -14,4 +14,4 @@ const Card = ({ cards }) => (
     </li>
 )
 
-export default Card;
+export default CardItem;
