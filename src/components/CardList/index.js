@@ -11,25 +11,6 @@ function CardList({card}) {
                 <CardItem card={card} key={card.id} />
             ))
         }
-
-        {/*{cards === null ? (*/}
-        {/*    <>*/}
-        {/*        <p>loading ...</p>*/}
-
-        {/*    </>*/}
-        {/*) : (*/}
-        {/*    <>*/}
-        {/*        {*/}
-        {/*            cards.map(card => (*/}
-        {/*                    <>*/}
-        {/*                        <CardItem cards={card} />*/}
-
-        {/*                    </>*/}
-        {/*                )*/}
-        {/*            )*/}
-        {/*        }*/}
-        {/*    </>*/}
-        {/*)}*/}
         </div>
     )
 }

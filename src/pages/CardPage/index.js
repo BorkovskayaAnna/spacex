@@ -8,67 +8,46 @@ import {Pagination} from '../../components/Pagination'
 
 function CardPage() {
 
+    const [searchTerm, setSearchTerm] = useState("");
+    const [pagination, setPagination] = useState(0);
+
     const [cards, setCards] = useState([]);
     const [loading, setLoading] = useState(false);
-    // const [perPage, setPerPage] = useState(1);
     // const [offset, setOffset] = useState(0);
     // const [limit, setLimit] = useState(1);
+
     let [currentPage, setCurrentPage] = useState(1);
     const [search, setSearch] = useState('');
     const [filter, setFilter] = useState('');
 
-
     const handleSearch = e => setSearch(e.target.value)
 
-    const handleFilter = e => {
-        // console.log(e.target.value)
-        setFilter(e.target.value)
-    }
+    const handleFilter = e => setFilter(e.target.value)
 
     const handleFetchData = async() => {
+        setLoading(true)
         fetchData().catch(error => error)
         const data = await fetchData()
-
         setCards(data);
-
-        // console.log(data)
-        // console.log(cards)
+        setLoading(false)
     };
-
-    // const handleFetchNewData = async(data) => {
-    //     setCards(data);
-    //
-    //     console.log(data)
-    //     // console.log(cards)
-    // };
-
-
-
-    useEffect(() => {
-        handleFetchData().then(() => console.log('loading'))
-    }, []);
 
     const handlePageClick = (e) => {
         let selected = e.selected;
         currentPage = selected + 1;
+        setCurrentPage(currentPage)
         console.log(currentPage)
-        // console.log(selected)
-        // const newCardsOffset = cards.offset + selected
-        // cards.offset = newCardsOffset
-        // setCards(cards.offset);
-        // let offset = Math.ceil(selected * cards.limit);
-        // let test = cards.offset;
-        // setCurrentPage({test: offset}, () =>{
-        //
-        // })
-        // handleFetchNewData()
     };
+
+
+    useEffect(() => {
+        handleFetchData()
+    }, []);
+
+
 
     return (
         <>
-            <Search search={search} handleSearch={handleSearch} />
-            <Filter cards={cards} filter={filter} handleFilter={handleFilter} />
-            <CardList card={cards} />
             <ReactPaginate
                 pageCount={cards.totalPages}
                 pageRangeDisplayed={cards.offset}
@@ -77,9 +56,13 @@ function CardPage() {
                 containerClassName="pagination-nav"
                 previousLabel="<<"
                 nextLabel=">>"
-                // disableInitialCallback={true}
+                currentPage={currentPage}
                 onPageChange={handlePageClick}
             />
+            {/*<Search search={search} handleSearch={handleSearch} />*/}
+            {/*<Filter cards={cards} filter={filter} handleFilter={handleFilter} />*/}
+            <CardList card={cards} />
+
         </>
     )
 }
