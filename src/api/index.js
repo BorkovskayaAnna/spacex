@@ -1,9 +1,7 @@
-
-
-export const fetchData = async({pageNumber}) => {
+export const fetchData = async({pageNumber, searchTerm}) => {
     const limit = 10
-    const search = ''
     const url = "https://api.spacexdata.com/v4/launches/query";
+
     const options = {
         method: "POST",
         headers: {
@@ -11,12 +9,11 @@ export const fetchData = async({pageNumber}) => {
         },
         body: JSON.stringify(
             {
-                "query": {
-                    // "$text": {
-                    //     "$search": search
-                    // },
-                    // "upcoming": true
-                },
+                "query": searchTerm ? {
+                    "$text": {
+                        "$search": searchTerm
+                    },
+                } : {},
                 "options": {
                     "sort":{
                         "name": "asc"
@@ -28,8 +25,7 @@ export const fetchData = async({pageNumber}) => {
             }
         )
     }
+
     const res = await fetch(url, options);
     return res.json();
-    //console.log(data)
-    // return data;
 }

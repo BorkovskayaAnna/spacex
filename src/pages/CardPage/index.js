@@ -5,7 +5,7 @@ import CardList from '../../components/CardList'
 import { fetchData } from '../../api'
 import {Pagination} from '../../components/Pagination'
 
-function CardPage() {
+function CardPage({searchTerm}) {
     const [cards, setCards] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -14,27 +14,33 @@ function CardPage() {
     const [filter, setFilter] = useState('');
 
     const handleSearch = e => setSearch(e.target.value)
+
     const handleFilter = e => {
         // console.log(e.target.value)
         setFilter(e.target.value)
     }
-
-    useEffect(() => {
-        fetchData({pageNumber: currentPage})
-        .then(data => setCards(data))
-        // .then(setCards)
-    }, [currentPage]);
-
 
     const handlePageClick = (e) => {
         let selected = e.selected;
         setCurrentPage(selected + 1)
     };
 
+    // pagination
+    useEffect(() => {
+        fetchData({pageNumber: currentPage}).then(data => setCards(data))
+    }, [currentPage]);
+
+    // search
+    useEffect(() => {
+        fetchData({searchTerm: search}).then(data => setCards(data))
+    }, [search]);
+
     return (
-        <>
-            <Search search={search} handleSearch={handleSearch} />
-            <Filter cards={cards} filter={filter} handleFilter={handleFilter} />
+        <div className="container">
+            <div className="filter-block">
+                <Search search={search} handleSearch={handleSearch} />
+                <Filter cards={cards} filter={filter} handleFilter={handleFilter} />
+            </div>
             <CardList card={cards} />
             <Pagination
                 totalPages={cards.totalPages}
@@ -42,7 +48,7 @@ function CardPage() {
                 limit={cards.limit}
                 handlePageClick={handlePageClick}
             />
-        </>
+        </div>
     )
 }
 export default CardPage;

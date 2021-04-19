@@ -3,6 +3,10 @@
     font-family: Arial, sans-serif;
 }
 
+body {
+    margin: 0;
+}
+
 p {
     margin: 0 0 10px;
     font-size: 18px;
@@ -13,3 +17,11 @@ h1 {
     font-size: 20px;
 }
 
+.container {
+    margin: auto;
+    padding: 0 15px;
+    max-width: 1200px;
+}
+.filter-block {
+    margin: 40px 0;
+}
