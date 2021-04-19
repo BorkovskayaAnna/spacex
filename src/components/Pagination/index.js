@@ -3,15 +3,17 @@ import ReactPaginate from 'react-paginate'
 import PropTypes from 'prop-types'
 import styles from './index.css'
 
-export const Pagination = ({cards}) => {
-    const [currentPage, setCurrentPage] = useState(0)
-    const [offset, setOfsset] = useState(0)
-    const [perPage, setPerPage] = useState(10)
-
-
-    return (
-        <div className="pagination-wrap">
-            <ReactPaginate />
-        </div>
-    )
-}
+export const Pagination = ({totalPages, offset, limit, handlePageClick}) => (
+    <div className="pagination-wrap">
+        <ReactPaginate
+            pageCount={totalPages}
+            pageRangeDisplayed={offset}
+            marginPagesDisplayed={limit}
+            containerClassName="pagination-nav"
+            pageClassName="nav-item"
+            previousLabel="<<"
+            nextLabel=">>"
+            onPageChange={handlePageClick}
+        />
+    </div>
+)
