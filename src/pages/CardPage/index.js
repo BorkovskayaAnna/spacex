@@ -1,45 +1,65 @@
 import React, {useState, useEffect} from 'react'
+import { fetchData } from '../../api'
+import CardList from '../../components/CardList'
 import Filter from '../../components/Filter'
 import Search from '../../components/Search'
-import CardList from '../../components/CardList'
-import { fetchData } from '../../api'
 import {Pagination} from '../../components/Pagination'
+import CardItem from "../../components/CardList/CardItem";
 
-function CardPage({searchTerm}) {
+const initialFilter = {
+    success: '',
+    upcoming: ''
+}
+
+function CardPage() {
     const [cards, setCards] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const [currentPage, setCurrentPage] = useState(1);
     const [search, setSearch] = useState('');
-    const [filter, setFilter] = useState('');
 
-    const handleSearch = e => setSearch(e.target.value)
+    const [filter, setFilter] = useState(initialFilter);
+    const [checked, setChecked] = useState('');
+
+    const handleSearch = e => {
+        setSearch(e.target.value)
+    }
 
     const handleFilter = e => {
-        // console.log(e.target.value)
-        setFilter(e.target.value)
+        const current = e.target.name
+        current === 'all' && setFilter(initialFilter)
+        current === 'success' && setFilter({success : e.target.value})
+        current === 'upcoming' && setFilter({upcoming : e.target.value})
     }
 
     const handlePageClick = (e) => {
-        let selected = e.selected;
+        const selected = e.selected;
         setCurrentPage(selected + 1)
     };
 
     // pagination
     useEffect(() => {
-        fetchData({pageNumber: currentPage}).then(data => setCards(data))
-    }, [currentPage]);
+        fetchData({
+            pageNumber: currentPage,
+            searchTerm: search,
+            // success: filter.success,
+            // upcoming: filter.upcoming
+        })
+        .then(data => setCards(data))
+    }, [currentPage, search]);
 
-    // search
     useEffect(() => {
-        fetchData({searchTerm: search}).then(data => setCards(data))
-    }, [search]);
+        fetchData({success: filter.success, upcoming: filter.upcoming}).then(data => setCards(data))
+    }, [filter]);
+
 
     return (
         <div className="container">
             <div className="filter-block">
                 <Search search={search} handleSearch={handleSearch} />
-                <Filter cards={cards} filter={filter} handleFilter={handleFilter} />
+                <Filter filter={filter} value={filter} handleFilter={handleFilter} />
+                <br/><div>upcoming {filter.upcoming}</div><br/>
+                <div>success {filter.success}</div>
             </div>
             <CardList card={cards} />
             <Pagination

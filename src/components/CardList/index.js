@@ -3,7 +3,6 @@ import CardItem from './CardItem'
 import styles from './index.css'
 
 function CardList({card}) {
-// console.log(card)
     return (
         <div className="cards-wrap">
         {card.docs == null ? 'Loading...' :
