@@ -2,6 +2,24 @@ export const fetchData = async({pageNumber, searchTerm, upcoming, success}) => {
     const limit = 10
     const url = "https://api.spacexdata.com/v4/launches/query";
 
+    const query = {}
+
+    if(upcoming !== 'all'  ) {
+        query.upcoming = upcoming === 'true'
+    }
+
+    if(success !== 'all' ) {
+        query.success = success === 'true'
+    }
+
+    if(searchTerm) {
+        query["$text"] = {
+            "$search": searchTerm,
+            "$caseSensitive": false,
+            "$diacriticSensitive": false
+        }
+    }
+
     const options = {
         method: "POST",
         headers: {
@@ -9,33 +27,7 @@ export const fetchData = async({pageNumber, searchTerm, upcoming, success}) => {
         },
         body: JSON.stringify(
             {
-                // "query": searchTerm ? {
-                //     "$text": {
-                //         "$search": searchTerm
-                //     },
-                // } : {},
-
-                // "query": searchTerm ? {
-                //     "$text": {
-                //         "$search": searchTerm,
-                //         "$caseSensitive": false,
-                //         "$diacriticSensitive": false
-                //         },
-                //     } : upcoming || success ? {
-                //         "upcoming": upcoming,
-                //         "success": success,
-                //     } : {},
-
-                "query": searchTerm || upcoming || success ? {
-                    "$text": searchTerm && {
-                        "$search": searchTerm,
-                        "$caseSensitive": false,
-                        "$diacriticSensitive": false
-                    },
-                    "upcoming": upcoming,
-                    "success": success,
-                } : {},
-
+                query,
                 "options": {
                     "sort":{
                         "name": "asc"
@@ -49,10 +41,6 @@ export const fetchData = async({pageNumber, searchTerm, upcoming, success}) => {
     }
 
     const res = await fetch(url, options);
-    // console.log(`
-    // ${searchTerm}
-    // ${upcoming}
-    // ${success}
-    // `)
     return res.json();
+
 }

@@ -6,10 +6,10 @@ import Search from '../../components/Search'
 import {Pagination} from '../../components/Pagination'
 import CardItem from "../../components/CardList/CardItem";
 
-const initialFilter = {
-    success: '',
-    upcoming: ''
-}
+// const initialFilter = {
+//     success: 'all',
+//     upcoming: 'all'
+// }
 
 function CardPage() {
     const [cards, setCards] = useState([]);
@@ -18,20 +18,36 @@ function CardPage() {
     const [currentPage, setCurrentPage] = useState(1);
     const [search, setSearch] = useState('');
 
-    const [filter, setFilter] = useState(initialFilter);
-    const [checked, setChecked] = useState('');
+    const [filterSuccess, setFilterSuccess] = useState('all');
+    const [filterUpcoming, setFilterUpcoming] = useState('all');
+    const [checked, setChecked] = useState({
+        suc: 'all',
+        up: 'all'
+    });
 
-    const handleSearch = e => {
-        setSearch(e.target.value)
-    }
+    const handleSearch = e => setSearch(e.target.value)
 
     const handleFilter = e => {
-        const current = e.target.name
-        current === 'all' && setFilter(initialFilter)
-        current === 'success' && setFilter({success : e.target.value})
-        current === 'upcoming' && setFilter({upcoming : e.target.value})
-    }
+        const currentName = e.target.name
+        const currentVal = e.target.value
+        // current === 'success' && setFilterSuccess(e.target.value)
+        // current === 'upcoming' && setFilterUpcoming(e.target.value)
 
+        switch (currentName) {
+            case 'success':
+                setFilterSuccess(e.target.value)
+                setChecked({...checked, suc: e.target.value})
+                // setChecked(e.target.value)
+                break
+            case 'upcoming':
+                setFilterUpcoming(e.target.value)
+                setChecked({...checked, up: e.target.value})
+                break
+            default:
+                break
+        }
+
+    }
     const handlePageClick = (e) => {
         const selected = e.selected;
         setCurrentPage(selected + 1)
@@ -42,24 +58,18 @@ function CardPage() {
         fetchData({
             pageNumber: currentPage,
             searchTerm: search,
-            // success: filter.success,
-            // upcoming: filter.upcoming
+            success: filterSuccess,
+            upcoming: filterUpcoming
         })
         .then(data => setCards(data))
-    }, [currentPage, search]);
-
-    useEffect(() => {
-        fetchData({success: filter.success, upcoming: filter.upcoming}).then(data => setCards(data))
-    }, [filter]);
-
+    }, [currentPage, search, filterSuccess, filterUpcoming]);
+    //console.log(filterSuccess)
 
     return (
         <div className="container">
             <div className="filter-block">
                 <Search search={search} handleSearch={handleSearch} />
-                <Filter filter={filter} value={filter} handleFilter={handleFilter} />
-                <br/><div>upcoming {filter.upcoming}</div><br/>
-                <div>success {filter.success}</div>
+                <Filter checked={checked} handleFilter={handleFilter} />
             </div>
             <CardList card={cards} />
             <Pagination

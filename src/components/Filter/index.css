@@ -5,6 +5,9 @@ input[type="radio"] {
 label {
     position: relative;
 }
+label.selected {
+    color: blue;
+}
 
 /*label span:before,*/
 /*label span:after {*/
