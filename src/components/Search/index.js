@@ -1,9 +1,12 @@
 import React from 'react'
-import style from './index.css'
+
+import styles from './Search.module.scss'
 
 const Search = ({ handleSearch, search }) => (
-    <div className="search-wrap">
-        <input type="search" value={search} className="input-search" placeholder="Looking for ..." onChange={handleSearch} />
+    <div className="container">
+        <div className={styles.searchWrap}>
+            <input type="search" value={search} className={styles.inputSearch} placeholder="Looking for ..." onChange={handleSearch} />
+        </div>
     </div>
 )
 

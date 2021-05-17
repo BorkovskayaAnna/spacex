@@ -1,18 +1,29 @@
-import React from "react";
+import React from 'react'
+import defaultImg from '../../assets/images/card-default.jpeg'
 
-const CardItem = ({ card }) => (
-    <div className="single-item">
-        <img src={card.links.flickr.original[0]} alt={card.name} />
-        <p>Name: {card.name}</p>
-        <p>Success:
-            <span style={{color: card.success ? 'green' : 'red'}}>{card.success ? ' Yes' :'No'}</span>
+import style from './CardList.module.scss'
+
+const CardItem = ({ card, imageLoaded }) => (
+    <div className={style.singleItem}>
+        <div className={style.imageWrap}>
+            <img
+                src={card.links.flickr.original[0] ? card.links.flickr.original[0] : defaultImg}
+                alt={card.name}
+            />
+        </div>
+        <p><strong>Name</strong>: {card.name}</p>
+        <p><strong>Success:</strong>
+            <span style={{color: card.success ? 'green' : 'red'}}>
+                {card.success === null ? ' -' : card.success ? ' Yes' : ' No'}
+            </span>
         </p>
-        <p>Upcoming:
-            <span style={{color: card.upcoming ? 'green' : 'red'}}> {card.upcoming ? ' Yes' :'No'}</span>
+        <p><strong>Upcoming:</strong>
+            <span style={{color: card.upcoming ? 'green' : 'red'}}>
+                {card.upcoming === null ? ' -' : card.upcoming ? ' Yes' : ' No'}
+            </span>
         </p>
-        <p>Flight number: {card.flight_number}</p>
-        <p>TBD: {card.tbd ? 'Yes' :'No'}</p>
-        <p>Details: {card.details}</p>
+        <p><strong>Flight number:</strong> {card.flight_number}</p>
+        {card.details && <p className={style.description}><strong>Details:</strong> {card.details}</p>}
     </div>
 )
 

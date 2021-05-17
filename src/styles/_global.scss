@@ -7,21 +7,19 @@ body {
     margin: 0;
 }
 
-p {
-    margin: 0 0 10px;
-    font-size: 18px;
-    line-height: 130%;
-}
-
-h1 {
-    font-size: 20px;
+.container-lg {
+    margin: auto;
+    max-width: 1440px;
 }
 
 .container {
     margin: auto;
     padding: 0 15px;
     max-width: 1200px;
+    overflow: hidden;
 }
-.filter-block {
-    margin: 40px 0;
+
+.text-center {
+    text-align: center;
 }
+

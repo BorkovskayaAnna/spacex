@@ -1,18 +1,25 @@
 import React from 'react'
 import ReactPaginate from 'react-paginate'
-import styles from './index.css'
 
-export const Pagination = ({totalPages, offset, limit, handlePageClick}) => (
-    <div className="pagination-wrap">
+import styles from './Pagination.module.scss'
+
+export const Pagination = ({ totalPages, handlePageClick }) => (
+    <div className={styles.paginationWrap}>
         <ReactPaginate
             pageCount={totalPages}
-            pageRangeDisplayed={offset}
-            marginPagesDisplayed={limit}
-            containerClassName="pagination-nav"
-            pageClassName="nav-item"
-            previousLabel="<<"
-            nextLabel=">>"
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={3}
+            containerClassName={styles.paginationNav}
+            pageClassName={styles.navItem}
+            activeClassName={styles.selected}
+            disabledClassName={styles.disabled}
+            previousClassName={styles.navItem}
+            nextClassName={styles.navItem}
+            previousLabel={'<'}
+            nextLabel={'>'}
             onPageChange={handlePageClick}
+            breakLabel={'...'}
+            breakClassName={`${styles.navItem} ${styles.ellipsis}`}
         />
     </div>
 )

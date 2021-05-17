@@ -1,5 +1,5 @@
 export const fetchData = async({pageNumber, searchTerm, upcoming, success}) => {
-    const limit = 10
+    const limit = 9
     const url = "https://api.spacexdata.com/v4/launches/query";
 
     const query = {}
@@ -32,7 +32,7 @@ export const fetchData = async({pageNumber, searchTerm, upcoming, success}) => {
                     "sort":{
                         "name": "asc"
                     },
-                    "offset": (pageNumber -1) * limit,
+                    "offset": (pageNumber - 1) * limit,
                     "limit": limit,
                     "pagination" : true
                 },
@@ -42,5 +42,4 @@ export const fetchData = async({pageNumber, searchTerm, upcoming, success}) => {
 
     const res = await fetch(url, options);
     return res.json();
-
 }

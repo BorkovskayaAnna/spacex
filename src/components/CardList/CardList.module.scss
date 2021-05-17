@@ -1,0 +1,44 @@
+@import "../../styles/variables";
+
+.cardsWrap {
+    display: grid;
+    padding: 30px 0;
+    grid-template: auto / repeat(3, 1fr);
+    gap: 24px;
+    justify-content: space-between;
+
+    @media (max-width: $md) {
+        grid-template: auto / repeat(2, 1fr);
+    }
+
+    @media (max-width: $sm) {
+        grid-template: auto / 1fr;
+    }
+}
+
+.singleItem {
+    padding:16px;
+    border: 1px solid #bfbfbf;
+    transition: all ease 0.4s;
+
+    &:hover {
+        box-shadow: 0 0 15px 3px rgba(111, 111, 111, .3);
+    }
+}
+
+.imageWrap {
+    display: flex;
+    justify-content: center;
+    height: 200px;
+    overflow: hidden;
+
+    img {
+        width: 100%;
+        max-width: 100%;
+        height: max-content;
+    }
+}
+
+.description {
+    line-height: 160%;
+}

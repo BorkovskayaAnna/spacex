@@ -1,0 +1,57 @@
+@import "../../styles/variables";
+
+.filterWrap {
+    display: flex;
+}
+.filterBlock {
+    display: flex;
+    flex-direction: column;
+
+    &:first-of-type {
+        margin-right: 40px;
+    }
+
+    input[type="radio"] {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    label {
+        position: relative;
+        display: flex;
+        margin: 0 0 16px;
+
+        &:before,
+        &:after{
+            position: absolute;
+            display: flex;
+            border-radius: 50%;
+            content: ''
+        }
+
+        &:before {
+            width: 18px;
+            height: 18px;
+            border: 1px solid $primary;
+        }
+
+        &.selected {
+            color: $primary;
+
+            &:after {
+                top: 5px;
+                left: 5px;
+                width: 9px;
+                height: 9px;
+                background: $primary;
+            }
+        }
+    }
+
+    .labelText {
+        margin: 0 0 0 16px;
+    }
+}
+
+
+

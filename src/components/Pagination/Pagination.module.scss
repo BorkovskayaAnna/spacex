@@ -1,0 +1,44 @@
+@import "../../styles/variables";
+
+.paginationWrap {
+    display: flex;
+    justify-content: center;
+    margin: 40px auto;
+}
+.paginationNav {
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.navItem {
+    margin: 0 4px;
+    border: 1px solid #000;
+    list-style: none;
+    cursor: pointer;
+
+    &.selected {
+        background: #000;
+        color: #fff;
+    }
+
+    &.disabled {
+        opacity: 0.5;
+        cursor: default;
+    }
+
+    a {
+        display: flex;
+        padding: 8px;
+        width: 32px;
+        height: 32px;
+        justify-content: center;
+
+        @media all and (max-width: $tablet) {
+            padding: 4px;
+            width: 24px;
+            height: 24px;
+        }
+    }
+
+}
