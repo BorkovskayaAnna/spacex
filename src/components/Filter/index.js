@@ -18,7 +18,7 @@ export const Filter = ({ handleFilter, checked }) => (
     <div className="container">
         <div className={styles.filterWrap}>
             <div className={styles.filterBlock}>
-                <p>Upcoming</p>
+                <p>Upcoming launches</p>
                 {upcoming.map((el, i) => (
                     <label
                         htmlFor={'u_'+el.value}
@@ -39,7 +39,7 @@ export const Filter = ({ handleFilter, checked }) => (
             </div>
 
             <div className={styles.filterBlock}>
-                <p>Success</p>
+                <p>Success launches</p>
                 {success.map((el, i)=> (
                     <label
                         htmlFor={'s_'+el.value}

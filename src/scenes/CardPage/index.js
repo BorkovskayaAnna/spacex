@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { fetchData } from '../../api'
 import { CardList } from '../../components/CardList'
 import { Filter } from '../../components/Filter'
-import Search from '../../components/Search'
+import { Search } from '../../components/Search'
 import { Pagination } from '../../components/Pagination'
 import { Loading } from '../../components/Loading'
 
@@ -17,7 +17,7 @@ export const CardPage = () => {
         upcoming: 'all'
     });
 
-    const handleSearch = e => setSearch(e.target.value)
+    const handleSearch = e =>  setSearch(e.target.value);
 
     const handleFilter = e => {
         const currentName = e.target.name
@@ -38,6 +38,11 @@ export const CardPage = () => {
     const handlePageClick = (e) => {
         const selected = e.selected;
         setCurrentPage(selected + 1)
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
     };
 
     useEffect(() => {
@@ -61,14 +66,13 @@ export const CardPage = () => {
                <Loading /> :
                cards.docs.length === 0 ?
                    <div className="text-center">
-                       <p>Nothing found on your request.</p>
-                       <p>Please check if you entered a full word</p>
+                       <p>Nothing found</p>
                    </div> :
                <CardList card={cards} />
            }
            {cards.totalPages > 1 && (
                <Pagination
-                   totalPages = {cards.totalPages}
+                   totalPages={cards.totalPages}
                    handlePageClick={handlePageClick}
                />
            )}
@@ -76,4 +80,3 @@ export const CardPage = () => {
        </>
     )
 }
-

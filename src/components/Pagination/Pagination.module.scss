@@ -16,7 +16,9 @@
     border: 1px solid #000;
     list-style: none;
     cursor: pointer;
+    transition: background ease .4s;
 
+    &:hover,
     &.selected {
         background: #000;
         color: #fff;

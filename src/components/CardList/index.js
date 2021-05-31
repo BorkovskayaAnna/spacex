@@ -1,5 +1,6 @@
 import React from 'react'
 import CardItem from './CardItem'
+
 import styles from './CardList.module.scss'
 
 export const CardList = ({ card }) => (

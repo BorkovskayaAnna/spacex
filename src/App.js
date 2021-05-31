@@ -1,4 +1,4 @@
-import { CardPage } from '../CardPage'
+import { CardPage } from './scenes/CardPage'
 
 function App() {
     return (
