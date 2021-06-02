@@ -1,9 +1,7 @@
-import { CardPage } from './scenes/CardPage'
+import { CardPage } from "./scenes/CardPage";
 
 function App() {
-    return (
-        <CardPage />
-    )
+  return <CardPage />;
 }
 
 export default App;
