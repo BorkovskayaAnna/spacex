@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+// Эти стили не используются
 import style from "./styles/index.scss";
 
 ReactDOM.render(

@@ -1,25 +1,26 @@
-import React from 'react'
-import ReactPaginate from 'react-paginate'
+import React from "react";
+import ReactPaginate from "react-paginate";
 
-import styles from './Pagination.module.scss'
+import styles from "./Pagination.module.scss";
 
 export const Pagination = ({ totalPages, handlePageClick }) => (
-    <div className={styles.paginationWrap}>
-        <ReactPaginate
-            pageCount={totalPages}
-            marginPagesDisplayed={2}
-            pageRangeDisplayed={3}
-            containerClassName={styles.paginationNav}
-            pageClassName={styles.navItem}
-            activeClassName={styles.selected}
-            disabledClassName={styles.disabled}
-            previousClassName={styles.navItem}
-            nextClassName={styles.navItem}
-            previousLabel={'<'}
-            nextLabel={'>'}
-            onPageChange={handlePageClick}
-            breakLabel={'...'}
-            breakClassName={`${styles.navItem} ${styles.ellipsis}`}
-        />
-    </div>
-)
+  <div className={styles.paginationWrap}>
+    <ReactPaginate
+      pageCount={totalPages}
+      marginPagesDisplayed={2}
+      pageRangeDisplayed={3}
+      containerClassName={styles.paginationNav}
+      pageClassName={styles.navItem}
+      activeClassName={styles.selected}
+      disabledClassName={styles.disabled}
+      previousClassName={styles.navItem}
+      nextClassName={styles.navItem}
+      // Если ты передаешь пропсом строку не обязательно оборачивать ее {}, это немного путает.
+      previousLabel={"<"}
+      nextLabel={">"}
+      onPageChange={handlePageClick}
+      breakLabel={"..."}
+      breakClassName={`${styles.navItem} ${styles.ellipsis}`}
+    />
+  </div>
+);
