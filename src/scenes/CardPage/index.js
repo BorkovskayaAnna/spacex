@@ -1,82 +1,90 @@
-import React, { useState, useEffect } from 'react'
-import { fetchData } from '../../api'
-import { CardList } from '../../components/CardList'
-import { Filter } from '../../components/Filter'
-import { Search } from '../../components/Search'
-import { Pagination } from '../../components/Pagination'
-import { Loading } from '../../components/Loading'
+import React, {useState, useEffect} from 'react'
+import {fetchData} from '../../api'
+import {CardItem} from '../../components/CardItem'
+import {Filter} from '../../components/Filter'
+import {Search} from '../../components/Search'
+import {Pagination} from '../../components/Pagination'
+import {Loading} from '../../components/Loading'
+import {useDebounce} from '../../hooks/useDebounce'
 
 export const CardPage = () => {
-    const [cards, setCards] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [search, setSearch] = useState('');
-    const [filterSuccess, setFilterSuccess] = useState('all');
-    const [filterUpcoming, setFilterUpcoming] = useState('all');
-    const [checked, setChecked] = useState({
-        success: 'all',
-        upcoming: 'all'
-    });
+  const [cards, setCards] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState('');
+  const [checked, setChecked] = useState({
+    success: 'all',
+    upcoming: 'all'
+  });
 
-    const handleSearch = e =>  setSearch(e.target.value);
+  const handleSearch = e => {
+    setSearch(e.target.value);
+    setCurrentPage(1)
+  }
 
-    const handleFilter = e => {
-        const currentName = e.target.name
-        switch (currentName) {
-            case 'success':
-                setFilterSuccess(e.target.value)
-                setChecked({...checked, success: e.target.value})
-                break
-            case 'upcoming':
-                setFilterUpcoming(e.target.value)
-                setChecked({...checked, upcoming: e.target.value})
-                break
-            default:
-                break
-        }
+  const debouncedSearch = useDebounce(search, 1000);
+
+  const handleFilter = e => {
+    const currentName = e.target.name
+    switch (currentName) {
+      case 'success':
+        setChecked({...checked, success: e.target.value})
+        break
+      case 'upcoming':
+        setChecked({...checked, upcoming: e.target.value})
+        break
+      default:
+        break
     }
 
-    const handlePageClick = (e) => {
-        const selected = e.selected;
-        setCurrentPage(selected + 1)
+    setCurrentPage(1)
+  }
 
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    };
+  const handlePageClick = (e) => {
+    const selected = e.selected;
+    setCurrentPage(selected + 1)
 
-    useEffect(() => {
-        fetchData({
-            pageNumber: currentPage,
-            searchTerm: search,
-            success: filterSuccess,
-            upcoming: filterUpcoming
-        })
-        .then(data => setCards(data))
-    }, [currentPage, search, filterSuccess, filterUpcoming]);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  };
 
-    return (
-       <>
-       <div className="filterBlock">
-           <Search search={search} handleSearch={handleSearch} />
-           <Filter checked={checked} handleFilter={handleFilter} />
-       </div>
-       <div className="container">
-           {cards.docs == null ?
-               <Loading /> :
-               cards.docs.length === 0 ?
-                   <div className="text-center">
-                       <p>Nothing found</p>
-                   </div> :
-               <CardList card={cards} />
-           }
-           {cards.totalPages > 1 && (
-               <Pagination
-                   totalPages={cards.totalPages}
-                   handlePageClick={handlePageClick}
-               />
-           )}
-       </div>
-       </>
-    )
+  useEffect(() => {
+    fetchData({
+      pageNumber: currentPage,
+      searchTerm: debouncedSearch,
+      success: checked.success,
+      upcoming: checked.upcoming
+    })
+      .then(data => setCards(data))
+  }, [currentPage, debouncedSearch, checked.success, checked.upcoming])
+
+  if(!cards.docs) {
+    return <Loading/>
+  }
+  console.log(currentPage)
+  return (
+    <>
+    <div className="filterBlock">
+      <Search search={search} handleSearch={handleSearch}/>
+      <Filter checked={checked} handleFilter={handleFilter}/>
+    </div>
+    <div className="container">
+       { cards.docs.length === 0
+         ? <div className="textCenter">
+            <p>Nothing found</p>
+           </div>
+         : <div className="grid">
+             <CardItem cards={cards}/>
+           </div>
+       }
+      {cards.totalPages > 1 && (
+        <Pagination
+          totalPages={cards.totalPages}
+          handlePageClick={handlePageClick}
+        />
+      )}
+    </div>
+    </>
+  )
 }

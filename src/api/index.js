@@ -1,45 +1,49 @@
-export const fetchData = async({pageNumber, searchTerm, upcoming, success}) => {
-    const limit = 9
-    const url = "https://api.spacexdata.com/v4/launches/query";
+const { REACT_APP_BASE_API_URL, REACT_APP_CARDS_PER_PAGE } = process.env;
 
-    const query = {}
+export const fetchData = async ({
+    pageNumber,
+    searchTerm,
+    upcoming,
+    success
+}) => {
 
-    if(upcoming !== 'all'  ) {
-        query.upcoming = upcoming === 'true'
+  const query = {}
+
+  if (upcoming !== 'all') {
+    query.upcoming = upcoming === 'true'
+  }
+
+  if (success !== 'all') {
+    query.success = success === 'true'
+  }
+
+  if (searchTerm) {
+    query["$text"] = {
+      $search: searchTerm,
+      $caseSensitive: false,
+      $diacriticSensitive: false,
     }
+  }
 
-    if(success !== 'all' ) {
-        query.success = success === 'true'
-    }
-
-    if(searchTerm) {
-        query["$text"] = {
-            "$search": searchTerm,
-            "$caseSensitive": false,
-            "$diacriticSensitive": false
-        }
-    }
-
-    const options = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(
+      {
+        query,
+        "options": {
+          "sort": {
+            "name": "asc"
+          },
+          "offset": (pageNumber - 1) * REACT_APP_CARDS_PER_PAGE,
+          "limit": REACT_APP_CARDS_PER_PAGE,
+          "pagination": true
         },
-        body: JSON.stringify(
-            {
-                query,
-                "options": {
-                    "sort":{
-                        "name": "asc"
-                    },
-                    "offset": (pageNumber - 1) * limit,
-                    "limit": limit,
-                    "pagination" : true
-                },
-            }
-        )
-    }
-
-    const res = await fetch(url, options);
-    return res.json();
+      }
+    )
+  }
+  const res = await fetch(REACT_APP_BASE_API_URL, options);
+  return res.json();
 }

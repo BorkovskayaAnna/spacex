@@ -1,23 +1,20 @@
 @import "../../styles/variables";
 
 .searchWrap {
-    padding: 100px 0;
-    background: url('../../assets/images/HP_Star27.webp') no-repeat center center / cover;
+  padding: 100px 0;
+  background: url('../../assets/images/HP_Star27.webp') no-repeat center center / cover;
 
-    @media all and (max-width: $sm) {
-        padding: 50px 0;
-    }
+  @media all and (max-width: $sm) {
+    padding: 50px 0;
+  }
 }
 
 .inputSearch {
-    width: 100%;
-    padding: 8px;
+  width: 100%;
+  padding: 8px;
 
-    &:hover,
-    &:focus {
-        outline: none;
-    }
-}
-.prompt {
-    display: none;
+  &:hover,
+  &:focus {
+    outline: none;
+  }
 }

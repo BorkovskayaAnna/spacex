@@ -1,3 +1,5 @@
+@import "./variables";
+
 * {
     box-sizing: border-box;
     font-family: Arial, sans-serif;
@@ -19,12 +21,28 @@ body {
     overflow: hidden;
 }
 
-.text-center {
+.textCenter {
     text-align: center;
 }
 
 p {
     margin: 0 0 10px;
     line-height: 24px;
+}
+
+.grid {
+    display: grid;
+    padding: 30px 0;
+    grid-template: auto / repeat(3, 1fr);
+    gap: 24px;
+    justify-content: space-between;
+
+    @media (max-width: $md) {
+        grid-template: auto / repeat(2, 1fr);
+    }
+
+    @media (max-width: $sm) {
+        grid-template: auto / 1fr;
+    }
 }
 

@@ -1,0 +1,33 @@
+@import "../../styles/variables";
+
+.singleItem {
+  padding: 16px;
+  border: 1px solid #bfbfbf;
+  transition: all ease 0.4s;
+
+  &:hover {
+    box-shadow: 0 0 15px 3px rgba(111, 111, 111, .3);
+  }
+}
+
+.imageWrap {
+  overflow: hidden;
+  display: flex;
+  margin: 0 0 16px;
+  height: 200px;
+  justify-content: center;
+
+  @media (max-width: $sm) {
+    height: 150px;
+  }
+
+  img {
+    max-width: 100%;
+    width: 100%;
+    height: max-content;
+  }
+}
+
+.description {
+  line-height: 160%;
+}
