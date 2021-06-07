@@ -1,30 +1,9 @@
 const { REACT_APP_BASE_API_URL, REACT_APP_CARDS_PER_PAGE } = process.env;
 
-export const fetchData = async ({
-    pageNumber,
-    searchTerm,
-    upcoming,
-    success
-}) => {
-
-  const query = {}
-
-  if (upcoming !== 'all') {
-    query.upcoming = upcoming === 'true'
-  }
-
-  if (success !== 'all') {
-    query.success = success === 'true'
-  }
-
-  if (searchTerm) {
-    query["$text"] = {
-      $search: searchTerm,
-      $caseSensitive: false,
-      $diacriticSensitive: false,
-    }
-  }
-
+export const fetchData = async (
+    currentPage,
+    query
+  ) => {
   const options = {
     method: "POST",
     headers: {
@@ -37,7 +16,7 @@ export const fetchData = async ({
           "sort": {
             "name": "asc"
           },
-          "offset": (pageNumber - 1) * REACT_APP_CARDS_PER_PAGE,
+          "offset": (currentPage - 1) * REACT_APP_CARDS_PER_PAGE,
           "limit": REACT_APP_CARDS_PER_PAGE,
           "pagination": true
         },

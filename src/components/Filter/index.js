@@ -7,16 +7,16 @@ export const Filter = ({handleFilter, checked}) => {
   const success = useMemo(()=>{
     return [
       {name: 'All', value: 'all'},
-      {name: 'Yes', value: true},
-      {name: 'No', value: false}
+      {name: 'Yes', value: 'true'},
+      {name: 'No', value: 'false'}
       ]
   },[])
 
   const upcoming = useMemo(()=> {
     return [
       {name: 'All', value: 'all'},
-      {name: 'Yes', value: true},
-      {name: 'No', value: false}
+      {name: 'Yes', value: 'true'},
+      {name: 'No', value: 'false'}
     ]
   },[])
 
@@ -29,14 +29,14 @@ export const Filter = ({handleFilter, checked}) => {
             success.map((item, index) => (
               <label
                 htmlFor={'s_' + item.value}
-                className={classNames(styles.label, {[styles.selected]: checked.success === String(item.value)})}
+                className={classNames(styles.label, {[styles.selected]: checked.success === item.value})}
                 key={item.name}
               >
                 <input
                   type="radio"
                   name="success"
                   id={'s_' + item.value}
-                  value={String(item.value)}
+                  value={item.value}
                   defaultChecked={index === 0}
                   onChange={handleFilter}
                 />
@@ -52,14 +52,14 @@ export const Filter = ({handleFilter, checked}) => {
             upcoming.map((item, index) => (
               <label
                 htmlFor={'u_' + item.value}
-                className={classNames(styles.label, {[styles.selected]: checked.upcoming === String(item.value)})}
+                className={classNames(styles.label, {[styles.selected]: checked.upcoming === item.value})}
                 key={item.name}
               >
                 <input
                   type="radio"
                   name="upcoming"
                   id={'u_' + item.value}
-                  value={String(item.value)}
+                  value={item.value}
                   defaultChecked={index === 0}
                   onChange={handleFilter}
                 />

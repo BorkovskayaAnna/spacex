@@ -50,19 +50,35 @@ export const CardPage = () => {
   };
 
   useEffect(() => {
-    fetchData({
-      pageNumber: currentPage,
-      searchTerm: debouncedSearch,
-      success: checked.success,
-      upcoming: checked.upcoming
-    })
+    const query = {}
+
+    if (checked.upcoming !== 'all') {
+      query.upcoming = checked.upcoming === 'true'
+    }
+
+    if (checked.success !== 'all') {
+      query.success = checked.success === 'true'
+    }
+
+    if (search) {
+      query["$text"] = {
+        $search: search,
+        $caseSensitive: false,
+        $diacriticSensitive: false,
+      }
+    }
+
+    fetchData(
+      currentPage,
+      query
+    )
       .then(data => setCards(data))
   }, [currentPage, debouncedSearch, checked.success, checked.upcoming])
 
   if(!cards.docs) {
     return <Loading/>
   }
-  console.log(currentPage)
+
   return (
     <>
     <div className="filterBlock">
@@ -72,7 +88,7 @@ export const CardPage = () => {
     <div className="container">
        { cards.docs.length === 0
          ? <div className="textCenter">
-            <p>Nothing found</p>
+           <p>Nothing found</p>
            </div>
          : <div className="grid">
              <CardItem cards={cards}/>
