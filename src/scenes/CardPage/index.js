@@ -11,6 +11,7 @@ export const CardPage = () => {
   const [cards, setCards] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState('');
+  const [forcePage, setForcePage] = useState(null);
   const [checked, setChecked] = useState({
     success: 'all',
     upcoming: 'all'
@@ -19,9 +20,10 @@ export const CardPage = () => {
   const handleSearch = e => {
     setSearch(e.target.value);
     setCurrentPage(1)
+    setForcePage(0)
   }
 
-  const debouncedSearch = useDebounce(search, 1000);
+  const debouncedSearch = useDebounce(search, 500);
 
   const handleFilter = e => {
     const currentName = e.target.name
@@ -37,6 +39,7 @@ export const CardPage = () => {
     }
 
     setCurrentPage(1)
+    setForcePage(0)
   }
 
   const handlePageClick = (e) => {
@@ -60,9 +63,9 @@ export const CardPage = () => {
       query.success = checked.success === 'true'
     }
 
-    if (search) {
+    if (debouncedSearch) {
       query["$text"] = {
-        $search: search,
+        $search: debouncedSearch,
         $caseSensitive: false,
         $diacriticSensitive: false,
       }
@@ -86,21 +89,25 @@ export const CardPage = () => {
       <Filter checked={checked} handleFilter={handleFilter}/>
     </div>
     <div className="container">
-       { cards.docs.length === 0
+       { !cards.docs.length
          ? <div className="textCenter">
            <p>Nothing found</p>
            </div>
          : <div className="grid">
-             <CardItem cards={cards}/>
+             {cards.docs.map(card => (
+               <CardItem card={card} key={card.id} />
+             ))}
            </div>
        }
       {cards.totalPages > 1 && (
         <Pagination
           totalPages={cards.totalPages}
           handlePageClick={handlePageClick}
+          forcePage={forcePage}
         />
       )}
     </div>
     </>
   )
 }
+
