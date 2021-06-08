@@ -11,7 +11,6 @@ export const CardPage = () => {
   const [cards, setCards] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState('');
-  const [forcePage, setForcePage] = useState(null);
   const [checked, setChecked] = useState({
     success: 'all',
     upcoming: 'all'
@@ -20,7 +19,6 @@ export const CardPage = () => {
   const handleSearch = e => {
     setSearch(e.target.value);
     setCurrentPage(1)
-    setForcePage(0)
   }
 
   const debouncedSearch = useDebounce(search, 500);
@@ -39,7 +37,6 @@ export const CardPage = () => {
     }
 
     setCurrentPage(1)
-    setForcePage(0)
   }
 
   const handlePageClick = (e) => {
@@ -103,7 +100,7 @@ export const CardPage = () => {
         <Pagination
           totalPages={cards.totalPages}
           handlePageClick={handlePageClick}
-          forcePage={forcePage}
+          forcePage={currentPage - 1}
         />
       )}
     </div>
